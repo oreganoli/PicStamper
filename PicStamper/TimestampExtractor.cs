@@ -13,7 +13,10 @@ public static class TimestampExtractor
     {
         var directories = ImageMetadataReader.ReadMetadata(stream);
         var exif = directories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
-        var dateTime = exif?.GetDescription(ExifDirectoryBase.TagDateTime);
+        var dateTime = exif?.GetDescription(ExifDirectoryBase.TagDateTimeOriginal)?
+        .Split(" ")
+        .First()
+        .Replace(":", ".");
         return dateTime;
     }
     public static string TimestampFromFile(string path)

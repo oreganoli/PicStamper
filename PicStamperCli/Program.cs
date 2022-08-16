@@ -1,3 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-Console.WriteLine("Hello, World!");
+﻿using PicStamper;
+// Extract file paths.
+var filenames = args;
+// Use PicStamper.
+foreach (var path in filenames)
+{
+    Console.WriteLine($"{path} : {TimestampExtractor.TimestampFromFile(path)}");
+}
