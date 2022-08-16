@@ -18,13 +18,14 @@ public static class ImageStamper
 
         var canvas = new SKCanvas(bitmap);
         var typeface = SKTypeface.FromFamilyName(null);
-        var font = new SKFont(typeface, 64f);
+        var font = new SKFont(typeface, 128f);
         var strokePaint = new SKPaint()
         {
             Color = SKColors.Black,
             IsAntialias = true,
             Style = SKPaintStyle.Stroke,
             TextAlign = SKTextAlign.Right,
+            StrokeWidth = 4f
         };
         var fillPaint = new SKPaint()
         {
@@ -33,8 +34,8 @@ public static class ImageStamper
             Style = SKPaintStyle.Fill,
             TextAlign = SKTextAlign.Right,
         };
-        canvas.DrawText(message, bitmap.Width, bitmap.Height - font.Size, font, fillPaint);
-        canvas.DrawText(message, bitmap.Width, bitmap.Height - font.Size, font, strokePaint);
+        canvas.DrawText(message, bitmap.Width, bitmap.Height, font, fillPaint);
+        canvas.DrawText(message, bitmap.Width, bitmap.Height, font, strokePaint);
         if (!bitmap.Encode(outStream, SKEncodedImageFormat.Jpeg, 90))
         {
             throw new ImageEncodingException();
