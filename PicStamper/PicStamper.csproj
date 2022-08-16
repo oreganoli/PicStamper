@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="MetadataExtractor" Version="2.7.2" />
+      <PackageReference Include="SkiaSharp" Version="2.88.1-preview.108" />
     </ItemGroup>
 
 </Project>
