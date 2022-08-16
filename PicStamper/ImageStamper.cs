@@ -25,7 +25,7 @@ public static class ImageStamper
             IsAntialias = true,
             Style = SKPaintStyle.Stroke,
             TextAlign = SKTextAlign.Right,
-            StrokeWidth = 4f
+            StrokeWidth = 5f
         };
         var fillPaint = new SKPaint()
         {
