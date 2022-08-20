@@ -1,0 +1,18 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build_deploy_front:
+    name: Build and deploy frontend
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      FRONTEND_BUCKET: ${{ secrets.FRONTEND_BUCKET }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Synchronize frontend files with S3
+        run: "aws s3 sync ./frontend/dist s3://$FRONTEND_BUCKET --delete"
