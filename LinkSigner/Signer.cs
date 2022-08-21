@@ -1,18 +1,43 @@
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
 namespace LinkSigner;
 
-public static class Signer
+public class Signer
 {
-    private static string MakeUploadPolicy(string domain, string prefix, int secondsValid)
+    public Signer(RSA rsa, string domain, string prefix, string keyPairId)
+    {
+        _rsa = rsa;
+        _domain = domain;
+        _prefix = prefix;
+        _keyPairId = keyPairId;
+    }
+
+    private readonly RSA _rsa;
+    private readonly string _domain;
+    private readonly string _prefix;
+    private readonly string _keyPairId;
+    private byte[] SignBytes(byte[] input)
+    {
+        byte[] policyHash;
+        using (var cryptoSha1 = SHA1.Create())
+        {
+            policyHash = cryptoSha1.ComputeHash(input);
+        }
+        var formatter = new RSAPKCS1SignatureFormatter(_rsa);
+        formatter.SetHashAlgorithm("SHA1");
+        var signedHash = formatter.CreateSignature(policyHash);
+        return signedHash;
+    }
+    private string MakeUploadPolicy(int secondsValid)
     {
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + secondsValid;
         string policyString = $$"""
         {
             "Statement": [
                 {
-                    "Resource": "https://{{domain}}/{{prefix}}/*",
+                    "Resource": "https://{{_domain}}/{{_prefix}}/*",
                     "Condition": {
                         "DateLessThan": {
                             "AWS:EpochTime": "{{timestamp}}"
@@ -34,11 +59,13 @@ public static class Signer
             .Replace("=", "_")
             .Replace("/", "~");
     }
-    public static string ProduceUrl(string domain, string prefix, string filename, int secondsValid, string keyPairId)
+    public string ProduceUrl(string filename, int secondsValid)
     {
-        var policyString = MakeUploadPolicy(domain, prefix, secondsValid);
+        var policyString = MakeUploadPolicy(secondsValid);
         var policyBuffer = Encoding.ASCII.GetBytes(policyString);
         var urlSafePolicy = UrlSafeBase64(policyBuffer);
-        return $"https://{domain}/{prefix}/{filename}?Policy={urlSafePolicy}&Key-Pair-Id={keyPairId}";
+        var signature = SignBytes(policyBuffer);
+        var urlSafeSignature = UrlSafeBase64(signature);
+        return $"https://{_domain}/{_prefix}/{filename}?Policy={urlSafePolicy}&Signature={urlSafeSignature}&Key-Pair-Id={_keyPairId}";
     }
 }
