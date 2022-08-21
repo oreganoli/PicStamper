@@ -1,4 +1,5 @@
 using System.Buffers.Text;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -28,16 +29,18 @@ public static class Signer
         return policyString;
     }
 
-    private static string UrlSafeBase64(string input)
+    private static string UrlSafeBase64(byte[] input)
     {
-        return Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(input))
+        return Convert.ToBase64String(input)
             .Replace("+", "-")
             .Replace("=", "_")
             .Replace("/", "~");
     }
     public static string ProduceUrl(string domain, string prefix, string filename, int secondsValid, string keyPairId)
     {
-        var urlSafePolicy = UrlSafeBase64(MakeUploadPolicy(domain, prefix, secondsValid));
+        var policyString = MakeUploadPolicy(domain, prefix, secondsValid);
+        var policyBuffer = Encoding.ASCII.GetBytes(policyString);
+        var urlSafePolicy = UrlSafeBase64(policyBuffer);
         return $"https://{domain}/{prefix}/{filename}?Policy={urlSafePolicy}&Key-Pair-Id={keyPairId}";
     }
 }
