@@ -35,9 +35,9 @@ public static class Signer
             .Replace("=", "_")
             .Replace("/", "~");
     }
-    public static string ProduceUrl(string domain, string prefix, string filename, int secondsValid)
+    public static string ProduceUrl(string domain, string prefix, string filename, int secondsValid, string keyPairId)
     {
         var urlSafePolicy = UrlSafeBase64(MakeUploadPolicy(domain, prefix, secondsValid));
-        return $"https://{domain}/{prefix}/{filename}?Policy={urlSafePolicy}";
+        return $"https://{domain}/{prefix}/{filename}?Policy={urlSafePolicy}&Key-Pair-Id={keyPairId}";
     }
 }
