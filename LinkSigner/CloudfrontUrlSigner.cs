@@ -33,22 +33,11 @@ public class CloudfrontUrlSigner
     private string MakeUploadPolicy(int secondsValid)
     {
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + secondsValid;
-        string policyString = $$"""
-        {
-            "Statement": [
-                {
-                    "Resource": "https://{{_domain}}/{{_prefix}}/*",
-                    "Condition": {
-                        "DateLessThan": {
-                            "AWS:EpochTime": "{{timestamp}}"
-                        }
-                    }
-                }
-            ]
-        } 
-        """;
-        // minify the JSON
-        policyString = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(policyString));
+        string policyString =
+            "{'Statement':[{'Resource':'https://DOMAIN/PREFIX/*','Condition':{'DateLessThan':{'AWS:EpochTime':'TIMESTAMP'}}}]}"
+                .Replace("DOMAIN", _domain)
+                .Replace("PREFIX", _prefix)
+                .Replace("TIMESTAMP", timestamp.ToString());
         return policyString;
     }
 
