@@ -4,8 +4,15 @@ using System.Text.Json;
 
 namespace LinkSigner;
 
+/// <summary>
+/// Class responsible for producing signed CloudFront URLs.
+/// </summary>
 public class CloudfrontUrlSigner
 {
+    /// <param name="rsa">An <see cref="RSA"/> object to produce URL signatures with.</param>
+    /// <param name="domain">The domain for the URLs produced.</param>
+    /// <param name="prefix">The subfolder (S3 key prefix) into which to place per-filename access links.</param>
+    /// <param name="keyPairId">The Amazon ID for the key pair used to sign URLs.</param>
     public CloudfrontUrlSigner(RSA rsa, string domain, string prefix, string keyPairId)
     {
         _rsa = rsa;
@@ -33,6 +40,7 @@ public class CloudfrontUrlSigner
     private string MakeUploadPolicy(int secondsValid)
     {
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + secondsValid;
+        // this is terrible, but I can't get C# 11 features to work in my dev environment
         string policyString =
             "{'Statement':[{'Resource':'https://DOMAIN/PREFIX/*','Condition':{'DateLessThan':{'AWS:EpochTime':'TIMESTAMP'}}}]}"
                 .Replace("DOMAIN", _domain)
@@ -48,6 +56,12 @@ public class CloudfrontUrlSigner
             .Replace("=", "_")
             .Replace("/", "~");
     }
+    /// <summary>
+    /// Produce a signed Cloudfront URL for the given filename, valid for a number of seconds from now.
+    /// </summary>
+    /// <param name="filename">The filename (underlying S3 key) to grant access to.></param>
+    /// <param name="secondsValid">Seconds until the URL expires.</param>
+    /// <returns>A HTTPS signed URL.</returns>
     public string ProduceUrl(string filename, int secondsValid)
     {
         var policyString = MakeUploadPolicy(secondsValid);
