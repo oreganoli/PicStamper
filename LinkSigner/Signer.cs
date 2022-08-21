@@ -7,8 +7,7 @@ public static class Signer
 {
     private static string MakeUploadPolicy(string domain, string prefix, int secondsValid)
     {
-        var expiryTime = DateTime.UtcNow + TimeSpan.FromSeconds(secondsValid);
-        var timestamp = (int) (expiryTime - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+        var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + secondsValid;
         string policyString = $$"""
         {
             "Statement": [
