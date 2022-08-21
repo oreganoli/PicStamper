@@ -2,6 +2,7 @@ namespace LinkSigner;
 
 public static class Config
 {
+    public static string Domain { get; }
     public static string PemKey { get; }
     public static string KeyPairId { get; }
 
@@ -11,6 +12,7 @@ public static class Config
     }
     static Config()
     {
+        Domain = GetEnvVar("STAMPER_DOMAIN");
         PemKey = GetEnvVar("STAMPER_PEM_KEY");
         KeyPairId = GetEnvVar("STAMPER_KEY_PAIR_ID");
     }
