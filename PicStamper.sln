@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamper", "PicStamper\Pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperCli", "PicStamperCli\PicStamperCli.csproj", "{9E6B44B6-E409-45C7-9D38-C16072243AED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkSigner", "LinkSigner\LinkSigner.csproj", "{BFB38A38-2207-4DDB-8753-AFB929127ECF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{9E6B44B6-E409-45C7-9D38-C16072243AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E6B44B6-E409-45C7-9D38-C16072243AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E6B44B6-E409-45C7-9D38-C16072243AED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFB38A38-2207-4DDB-8753-AFB929127ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB38A38-2207-4DDB-8753-AFB929127ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFB38A38-2207-4DDB-8753-AFB929127ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFB38A38-2207-4DDB-8753-AFB929127ECF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
