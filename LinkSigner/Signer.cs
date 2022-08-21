@@ -30,7 +30,7 @@ public static class Signer
 
     private static string UrlSafeBase64(string input)
     {
-        return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(input))
+        return Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(input))
             .Replace("+", "-")
             .Replace("=", "_")
             .Replace("/", "~");
