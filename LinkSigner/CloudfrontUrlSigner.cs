@@ -4,9 +4,9 @@ using System.Text.Json;
 
 namespace LinkSigner;
 
-public class Signer
+public class CloudfrontUrlSigner
 {
-    public Signer(RSA rsa, string domain, string prefix, string keyPairId)
+    public CloudfrontUrlSigner(RSA rsa, string domain, string prefix, string keyPairId)
     {
         _rsa = rsa;
         _domain = domain;
