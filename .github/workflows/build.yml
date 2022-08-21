@@ -3,6 +3,31 @@ name: Build
 on: [push]
 
 jobs:
+  build_deploy_issuer:
+    name: Build and deploy URL issuer lambda
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      CODE_BUCKET: ${{ secrets.CODE_BUCKET }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Zip up files
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r PicStamperLinkIssuer.zip PicStamperLinkIssuer/bin/Release/net6.0
+      - name: Send code to S3
+        run: "aws s3 cp ./PicStamperLinkIssuer.zip s3://$CODE_BUCKET/PicStamperLinkIssuer.zip"
+      - name: Update Lambda code
+        run: "aws lambda update-function-code --function-name PicStamperLinkIssuer --s3-bucket $CODE_BUCKET --s3-key PicStamperLinkIssuer.zip"
   build_deploy_front:
     name: Build and deploy frontend
     env:
