@@ -2,8 +2,8 @@ namespace LinkSigner;
 
 public static class Config
 {
-    private static string PemKey { get; }
-    private static string KeyPairId { get; }
+    public static string PemKey { get; }
+    public static string KeyPairId { get; }
 
     private static string GetEnvVar(string name)
     {
