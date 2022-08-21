@@ -1,4 +1,4 @@
-namespace LinkSigner;
+namespace PicStamperLinkIssuer;
 
 public static class Config
 {

@@ -1,4 +1,4 @@
-namespace LinkSigner;
+namespace PicStamperLinkIssuer;
 
 public class EnvVarException: Exception
 {
