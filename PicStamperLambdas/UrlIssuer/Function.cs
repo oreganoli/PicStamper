@@ -1,8 +1,10 @@
 using System.Security.Cryptography;
 using Amazon.Lambda.Core;
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
-namespace PicStamperLinkIssuer;
+using PicStamperLambdas;
 
+[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+// ReSharper disable once CheckNamespace
+namespace UrlIssuer;
 public class Function
 {
     public Dictionary<string, string> FunctionHandler(ILambdaContext _ctx)

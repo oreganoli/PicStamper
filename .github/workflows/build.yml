@@ -23,11 +23,13 @@ jobs:
       - name: Zip up files
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r PicStamperLinkIssuer.zip PicStamperLinkIssuer/bin/Release/net6.0
+          args: zip -qq -r PicStamperLambdas.zip PicStamperLambdas/bin/Release/net6.0
       - name: Send code to S3
-        run: "aws s3 cp ./PicStamperLinkIssuer.zip s3://$CODE_BUCKET/PicStamperLinkIssuer.zip"
-      - name: Update Lambda code
-        run: "aws lambda update-function-code --function-name PicStamperLinkIssuer --s3-bucket $CODE_BUCKET --s3-key PicStamperLinkIssuer.zip"
+        run: "aws s3 cp ./PicStamperLambdas.zip s3://$CODE_BUCKET/PicStamperLambdas.zip"
+      - name: Update url issuer lambda code
+        run: "aws lambda update-function-code --function-name PicStamperLinkIssuer --s3-bucket $CODE_BUCKET --s3-key PicStamperLambdas.zip"
+      - name: Update url issuer lambda config
+        run: "aws lambda update-function-configuration --function-name PicStamperLinkIssuer --handler PicStamperLambdas::UrlIssuer.Function::FunctionHandler"
   build_deploy_front:
     name: Build and deploy frontend
     env:

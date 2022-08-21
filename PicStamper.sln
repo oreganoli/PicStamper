@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamper", "PicStamper\Pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperCli", "PicStamperCli\PicStamperCli.csproj", "{9E6B44B6-E409-45C7-9D38-C16072243AED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperLinkIssuer", "PicStamperLinkIssuer\PicStamperLinkIssuer.csproj", "{BFB38A38-2207-4DDB-8753-AFB929127ECF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperLambdas", "PicStamperLambdas\PicStamperLambdas.csproj", "{BFB38A38-2207-4DDB-8753-AFB929127ECF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

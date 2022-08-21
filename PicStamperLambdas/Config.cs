@@ -1,4 +1,4 @@
-namespace PicStamperLinkIssuer;
+namespace PicStamperLambdas;
 
 public static class Config
 {

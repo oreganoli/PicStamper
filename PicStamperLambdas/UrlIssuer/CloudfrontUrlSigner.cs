@@ -1,8 +1,8 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace PicStamperLinkIssuer;
-
+// ReSharper disable once CheckNamespace
+namespace UrlIssuer;
 /// <summary>
 /// Class responsible for producing signed CloudFront URLs.
 /// </summary>
