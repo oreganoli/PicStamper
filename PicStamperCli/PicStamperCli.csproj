@@ -11,4 +11,8 @@
       <ProjectReference Include="..\PicStamper\PicStamper.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.1" />
+    </ItemGroup>
+
 </Project>
