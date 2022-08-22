@@ -17,7 +17,7 @@ public static class ImageStamper
         }
 
         var canvas = new SKCanvas(bitmap);
-        var typeface = SKTypeface.FromFamilyName(null);
+        var typeface = SKTypeface.FromFile("BebasNeue-Regular.ttf");
         var font = new SKFont(typeface, 128f);
         var strokePaint = new SKPaint()
         {
