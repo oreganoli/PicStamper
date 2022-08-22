@@ -12,7 +12,7 @@ public class CloudfrontUrlSigner
     /// <param name="domain">The domain for the URLs produced.</param>
     /// <param name="prefix">The subfolder (S3 key prefix) into which to place per-filename access links.</param>
     /// <param name="keyPairId">The Amazon ID for the key pair used to sign URLs.</param>
-    public CloudfrontUrlSigner(RSA rsa, string domain, string prefix, string keyPairId)
+    public CloudfrontUrlSigner(RSA rsa, string domain, string? prefix, string keyPairId)
     {
         _rsa = rsa;
         _domain = domain;
@@ -22,7 +22,7 @@ public class CloudfrontUrlSigner
 
     private readonly RSA _rsa;
     private readonly string _domain;
-    private readonly string _prefix;
+    private readonly string? _prefix;
     private readonly string _keyPairId;
     private byte[] SignBytes(byte[] input)
     {
@@ -40,11 +40,20 @@ public class CloudfrontUrlSigner
     {
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + secondsValid;
         // this is terrible, but I can't get C# 11 features to work in my dev environment
-        string policyString =
-            "{'Statement':[{'Resource':'https://DOMAIN/PREFIX/*','Condition':{'DateLessThan':{'AWS:EpochTime':'TIMESTAMP'}}}]}"
-                .Replace("DOMAIN", _domain)
+        string policyString;
+        if (_prefix != null)
+        {
+             policyString = "{'Statement':[{'Resource':'https://DOMAIN/PREFIX/*','Condition':{'DateLessThan':{'AWS:EpochTime':'TIMESTAMP'}}}]}"
+                 .Replace("DOMAIN", _domain)
+                 .Replace("TIMESTAMP", timestamp.ToString()); 
+        }
+        else
+        {
+            policyString = "{'Statement':[{'Resource':'https://DOMAIN/*','Condition':{'DateLessThan':{'AWS:EpochTime':'TIMESTAMP'}}}]}"
                 .Replace("PREFIX", _prefix)
+                .Replace("DOMAIN", _domain)
                 .Replace("TIMESTAMP", timestamp.ToString());
+        }
         return policyString;
     }
 
