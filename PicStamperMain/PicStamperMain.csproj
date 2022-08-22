@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AWSSDK.S3" Version="3.7.9.41" />
       <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.1" />
     </ItemGroup>
 
