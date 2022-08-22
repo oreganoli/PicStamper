@@ -29,7 +29,7 @@ public static class ImageStamper
         };
         var fillPaint = new SKPaint()
         {
-            Color = SKColors.White,
+            Color = SKColors.Coral,
             IsAntialias = true,
             Style = SKPaintStyle.Fill,
             TextAlign = SKTextAlign.Right,
