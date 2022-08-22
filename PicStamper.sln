@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamper", "PicStamper\PicStamper.csproj", "{3ED06F32-B137-402B-8244-F31DAF37FB8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperCli", "PicStamperCli\PicStamperCli.csproj", "{9E6B44B6-E409-45C7-9D38-C16072243AED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperMain", "PicStamperMain\PicStamperMain.csproj", "{9E6B44B6-E409-45C7-9D38-C16072243AED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperLambdas", "PicStamperLambdas\PicStamperLambdas.csproj", "{BFB38A38-2207-4DDB-8753-AFB929127ECF}"
 EndProject
