@@ -1,11 +1,12 @@
 using System.Text;
 using Amazon.Runtime;
+using Amazon.Runtime.CredentialManagement;
+using Amazon.Runtime.Internal;
 
 namespace PicStamperMain;
 
 static class Config
 {
-        public static AWSCredentials CredsFromEnv => new BasicAWSCredentials(GetEnvVar("AWS_ACCESS_KEY_ID"), GetEnvVar("AWS_SECRET_ACCESS_KEY"));
         public static string IntakeBucket { get; }
         public static string OutputBucket { get; }
         public static string OutputDomain { get; }

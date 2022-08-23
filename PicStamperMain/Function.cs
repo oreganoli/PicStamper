@@ -12,10 +12,8 @@ public class Function
 {
     public async Task<string> Handler(string jobId, ILambdaContext ctx)
     {
-        // AWS setup.
-        var creds = Config.CredsFromEnv;
         // List all files for job ID.
-        var s3Client = new AmazonS3Client(creds, RegionEndpoint.EUCentral1);
+        var s3Client = new AmazonS3Client(RegionEndpoint.EUCentral1);
         var files = await s3Client.ListObjectsV2Async(new ListObjectsV2Request
         {
             BucketName = Config.IntakeBucket,
@@ -27,7 +25,7 @@ public class Function
             {
                 // make s3 client
                 // ReSharper disable once VariableHidesOuterVariable
-                var s3Client = new AmazonS3Client(creds, RegionEndpoint.EUCentral1);
+                var s3Client = new AmazonS3Client(RegionEndpoint.EUCentral1);
                 // Download file.
                 var objectResponse = await s3Client.GetObjectAsync(each.BucketName, each.Key);
                 var memStream = new MemoryStream();
