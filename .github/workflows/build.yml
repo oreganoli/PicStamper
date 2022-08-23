@@ -30,6 +30,41 @@ jobs:
         run: "aws lambda update-function-code --function-name PicStamperLinkIssuer --s3-bucket $CODE_BUCKET --s3-key PicStamperLambdas.zip"
       - name: Update url issuer lambda config
         run: "aws lambda update-function-configuration --function-name PicStamperLinkIssuer --handler PicStamperLambdas::UrlIssuer.Function::FunctionHandler"
+  build_deploy_main:
+    name: Build and deploy PicStamper lambda
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      CODE_BUCKET: ${{ secrets.CODE_BUCKET }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Make deployment package directory
+        run: "mkdir main-deploy"
+      - name: Prepare deployment package (copy main build artifacts)
+        run: "cp PicStamperMain/bin/Release/net6.0/* main-deploy"
+      - name: Prepare deployment package (copy native dependencies)
+        run: "cp PicStamperMain/bin/Release/net6.0/runtimes/linux-x64/native/libSkiaSharp.so main-deploy"
+      - name: Prepare deployment package (copy font files)
+        run: "cp BebasNeue-Regular.ttf main-deploy"
+      - name: Zip up package
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -rj PicStamperMain.zip main-deploy
+      - name: Send code to S3
+        run: "aws s3 cp ./PicStamperMain.zip s3://$CODE_BUCKET/PicStamperMain.zip"
+      - name: Update url issuer lambda code
+        run: "aws lambda update-function-code --function-name PicStamperMain --s3-bucket $CODE_BUCKET --s3-key PicStamperMain.zip"
+      - name: Update url issuer lambda config
+        run: "aws lambda update-function-configuration --function-name PicStamperMain --handler PicStamperMain::PicStamperMain.Function::Handler"
   build_deploy_front:
     name: Build and deploy frontend
     env:
