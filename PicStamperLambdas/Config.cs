@@ -4,7 +4,7 @@ namespace PicStamperLambdas;
 
 public static class Config
 {
-    public static string Domain { get; }
+    public static string IntakeDomain { get; }
     public static string PemKey { get; }
     public static string KeyPairId { get; }
 
@@ -14,7 +14,7 @@ public static class Config
     }
     static Config()
     {
-        Domain = GetEnvVar("STAMPER_DOMAIN");
+        IntakeDomain = GetEnvVar("INTAKE_DOMAIN");
         KeyPairId = GetEnvVar("STAMPER_KEY_PAIR_ID");
         PemKey = GetEnvVar("STAMPER_PEM_KEY");
         // convert pem key from base64

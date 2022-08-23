@@ -16,9 +16,9 @@ public class Function
         // Create the upload URL.
         var rsa = RSA.Create();
         rsa.ImportFromPem(Config.PemKey);
-        var policy = AmazonCloudFrontUrlSigner.BuildPolicyForSignedUrl($"https://{Config.Domain}/*",
+        var policy = AmazonCloudFrontUrlSigner.BuildPolicyForSignedUrl($"https://{Config.IntakeDomain}/*",
             DateTime.UtcNow + TimeSpan.FromHours(1), null);
-        var url = AmazonCloudFrontUrlSigner.SignUrl($"https://{Config.Domain}/PLACEHOLDER.jpg", Config.KeyPairId,
+        var url = AmazonCloudFrontUrlSigner.SignUrl($"https://{Config.IntakeDomain}/PLACEHOLDER.jpg", Config.KeyPairId,
             new StringReader(Config.PemKey), policy);
         dict.Add("url", url);
         dict.Add("jobId", jobId);
