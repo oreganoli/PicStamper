@@ -1,10 +1,12 @@
-﻿using Amazon;
+﻿using System.Security.Cryptography;
+using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using PicStamper;
 using PicStamperMain;
 using SharpCompress.Archives.Zip;
+using UrlIssuer;
 
 // AWS setup.
 var creds = new BasicAWSCredentials(Config.GetEnvVar("AWS_ACCESS_KEY_ID"), Config.GetEnvVar("AWS_SECRET_ACCESS_KEY"));
@@ -60,3 +62,8 @@ await s3Client.PutObjectAsync(new PutObjectRequest
     Key = $"{jobId}.zip",
     InputStream = zipMemStream
 });
+
+var rsa = RSA.Create();
+rsa.ImportFromPem(Config.GetEnvVar("STAMPER_PEM_KEY"));
+var signer = new CloudfrontUrlSigner(rsa, Config.GetEnvVar("OUTPUT_DOMAIN"), null, Config.GetEnvVar("STAMPER_KEY_PAIR_ID"));
+Console.WriteLine(signer.ProduceUrl($"{jobId}.zip", 24 * 3600, true));

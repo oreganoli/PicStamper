@@ -16,7 +16,7 @@ public class Function
         var rsa = RSA.Create();
         rsa.ImportFromPem(Config.PemKey);
         var signer = new CloudfrontUrlSigner(rsa, Config.Domain, jobId, Config.KeyPairId);
-        var url = signer.ProduceUrl("PLACEHOLDER", 3600);
+        var url = signer.ProduceUrl("PLACEHOLDER", 3600, false);
         dict.Add("url", url);
         dict.Add("jobId", jobId);
         return dict;

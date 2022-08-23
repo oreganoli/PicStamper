@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 // ReSharper disable once CheckNamespace
 namespace UrlIssuer;
@@ -36,7 +37,7 @@ public class CloudfrontUrlSigner
         var signedHash = formatter.CreateSignature(policyHash);
         return signedHash;
     }
-    private string MakeUploadPolicy(int secondsValid)
+    private string MakeUploadPolicy(int secondsValid, string? filename)
     {
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + secondsValid;
         // this is terrible, but I can't get C# 11 features to work in my dev environment
@@ -54,6 +55,13 @@ public class CloudfrontUrlSigner
                 .Replace("DOMAIN", _domain)
                 .Replace("TIMESTAMP", timestamp.ToString());
         }
+        if (filename != null)
+        {
+            policyString = policyString.Replace("*", filename);
+        }
+
+        policyString = policyString.Replace("'", "\"");
+        policyString = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(policyString));
         return policyString;
     }
 
@@ -64,19 +72,22 @@ public class CloudfrontUrlSigner
             .Replace("=", "_")
             .Replace("/", "~");
     }
+
     /// <summary>
     /// Produce a signed Cloudfront URL for the given filename, valid for a number of seconds from now.
     /// </summary>
     /// <param name="filename">The filename (underlying S3 key) to grant access to.></param>
     /// <param name="secondsValid">Seconds until the URL expires.</param>
+    /// <param name="exclusive">Whether or not the URL should be exclusive to the filename.</param>
     /// <returns>A HTTPS signed URL.</returns>
-    public string ProduceUrl(string filename, int secondsValid)
+    public string ProduceUrl(string filename, int secondsValid, bool exclusive)
     {
-        var policyString = MakeUploadPolicy(secondsValid);
+        var policyString = MakeUploadPolicy(secondsValid, exclusive ? filename : null);
         var policyBuffer = Encoding.ASCII.GetBytes(policyString);
         var urlSafePolicy = UrlSafeBase64(policyBuffer);
         var signature = SignBytes(policyBuffer);
         var urlSafeSignature = UrlSafeBase64(signature);
-        return $"https://{_domain}/{_prefix}/{filename}?Policy={urlSafePolicy}&Signature={urlSafeSignature}&Key-Pair-Id={_keyPairId}";
+        var prefixString = _prefix == null ? "" : $"{_prefix}/"; 
+        return $"https://{_domain}/{prefixString}{filename}?Policy={urlSafePolicy}&Signature={urlSafeSignature}&Key-Pair-Id={_keyPairId}";
     }
 }
