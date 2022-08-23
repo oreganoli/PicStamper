@@ -50,7 +50,7 @@ jobs:
       - name: Make deployment package directory
         run: "mkdir main-deploy"
       - name: Prepare deployment package (copy main build artifacts)
-        run: "cp PicStamperMain/bin/Release/net6.0/* main-deploy"
+        run: "cp PicStamperMain/bin/Release/net6.0/*.dll PicStamperMain/bin/Release/net6.0/*.json PicStamperMain/bin/Release/net6.0/*.pdb  main-deploy"
       - name: Prepare deployment package (copy native dependencies)
         run: "cp PicStamperMain/bin/Release/net6.0/runtimes/linux-x64/native/libSkiaSharp.so main-deploy"
       - name: Prepare deployment package (copy font files)
