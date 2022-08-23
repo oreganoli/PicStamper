@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperMain", "PicStampe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicStamperLambdas", "PicStamperLambdas\PicStamperLambdas.csproj", "{BFB38A38-2207-4DDB-8753-AFB929127ECF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudfrontUrlSigner", "CloudfrontUrlSigner\CloudfrontUrlSigner.csproj", "{F1025B72-744D-452F-BBCA-F9A22A928A00}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,5 @@ Global
 		{BFB38A38-2207-4DDB-8753-AFB929127ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFB38A38-2207-4DDB-8753-AFB929127ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFB38A38-2207-4DDB-8753-AFB929127ECF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1025B72-744D-452F-BBCA-F9A22A928A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1025B72-744D-452F-BBCA-F9A22A928A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1025B72-744D-452F-BBCA-F9A22A928A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1025B72-744D-452F-BBCA-F9A22A928A00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

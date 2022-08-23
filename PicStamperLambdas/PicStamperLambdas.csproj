@@ -13,10 +13,7 @@
     <ItemGroup>
       <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
       <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\CloudfrontUrlSigner\CloudfrontUrlSigner.csproj" />
+      <PackageReference Include="AWSSDK.CloudFront" Version="3.7.7.3" />
     </ItemGroup>
 
 </Project>
