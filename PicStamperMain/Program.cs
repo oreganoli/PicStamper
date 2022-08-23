@@ -1,7 +1,5 @@
-﻿using System.Security.Cryptography;
-using Amazon;
+﻿using Amazon;
 using Amazon.CloudFront;
-using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using PicStamper;
@@ -9,7 +7,7 @@ using PicStamperMain;
 using SharpCompress.Archives.Zip;
 
 // AWS setup.
-var creds = new BasicAWSCredentials(Config.GetEnvVar("AWS_ACCESS_KEY_ID"), Config.GetEnvVar("AWS_SECRET_ACCESS_KEY"));
+var creds = Config.CredsFromEnv;
 
 // Extract job ID.
 var jobId = args.First();
@@ -17,7 +15,7 @@ var jobId = args.First();
 var s3Client = new AmazonS3Client(creds, RegionEndpoint.EUCentral1);
 var files = await s3Client.ListObjectsV2Async(new ListObjectsV2Request
 {
-    BucketName = Config.GetEnvVar("INTAKE_BUCKET"),
+    BucketName = Config.IntakeBucket,
     Prefix = jobId
 });
 
@@ -58,17 +56,17 @@ zipArchive.SaveTo(zipMemStream);
 
 await s3Client.PutObjectAsync(new PutObjectRequest
 {
-    BucketName = Config.GetEnvVar("OUTPUT_BUCKET"),
+    BucketName = Config.OutputBucket,
     Key = $"{jobId}.zip",
     InputStream = zipMemStream
 });
 
 var url = AmazonCloudFrontUrlSigner.GetCannedSignedURL(
     AmazonCloudFrontUrlSigner.Protocol.https,
-    Config.GetEnvVar("OUTPUT_DOMAIN"),
-    new StringReader(Config.GetEnvVar("STAMPER_PEM_KEY")),
+    Config.OutputDomain,
+    new StringReader(Config.PemKey),
     $"{jobId}.zip",
-    Config.GetEnvVar("STAMPER_KEY_PAIR_ID"),
+    Config.KeyPairId,
     DateTime.UtcNow + TimeSpan.FromDays(1)
 );
 Console.WriteLine(url);
