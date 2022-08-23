@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace PicStamperLambdas;
 
 public static class Config
@@ -13,7 +15,9 @@ public static class Config
     static Config()
     {
         Domain = GetEnvVar("STAMPER_DOMAIN");
-        PemKey = GetEnvVar("STAMPER_PEM_KEY");
         KeyPairId = GetEnvVar("STAMPER_KEY_PAIR_ID");
+        PemKey = GetEnvVar("STAMPER_PEM_KEY");
+        // convert pem key from base64
+        PemKey = Encoding.ASCII.GetString(Convert.FromBase64String(PemKey));
     }
 }
