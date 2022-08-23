@@ -43,7 +43,6 @@ public class Function
             return task;
         });
         var results = await Task.WhenAll(tasks);
-        await using var zipFileStream = new FileStream($"{jobId}.zip", FileMode.Create);
         using var zipArchive = ZipArchive.Create();
         using var zipMemStream = new MemoryStream();
         foreach (var (filename, data) in results)
