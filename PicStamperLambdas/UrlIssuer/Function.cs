@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Amazon.CloudFront;
 using Amazon.Lambda.Core;
 using PicStamperLambdas;
 
@@ -15,8 +16,10 @@ public class Function
         // Create the upload URL.
         var rsa = RSA.Create();
         rsa.ImportFromPem(Config.PemKey);
-        var signer = new CloudfrontUrlSigner(rsa, Config.Domain, jobId, Config.KeyPairId);
-        var url = signer.ProduceUrl("PLACEHOLDER", 3600, false);
+        var policy = AmazonCloudFrontUrlSigner.BuildPolicyForSignedUrl($"https://{Config.Domain}/*",
+            DateTime.UtcNow + TimeSpan.FromHours(1), null);
+        var url = AmazonCloudFrontUrlSigner.SignUrl($"https://{Config.Domain}/PLACEHOLDER.jpg", Config.KeyPairId,
+            new StringReader(Config.PemKey), policy);
         dict.Add("url", url);
         dict.Add("jobId", jobId);
         return dict;
