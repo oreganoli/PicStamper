@@ -22,6 +22,7 @@ public class Function
                 { ":ts", new AttributeValue { S = boundaryTimestamp.ToString() } }
             }
         });
+        if (staleJobs.Count < 1) return "Found no stale jobs, exiting.";
         var staleJobIds = staleJobs.Items.Select(each => each["jobId"].S)
             .Select(each => new WriteRequest(new DeleteRequest(new Dictionary<string, AttributeValue>
                 { { "jobId", new AttributeValue(each) } })));
