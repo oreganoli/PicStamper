@@ -8,12 +8,12 @@ namespace JobStarter;
 
 public class Function
 {
-    public async Task<string> Handler(string jobId, ILambdaContext ctx)
+    public async Task<string> Handler(int jobId, ILambdaContext ctx)
     {
         var lambdaClient = new AmazonLambdaClient();
         var request = new InvokeRequest()
         {
-            Payload = $"\"{jobId}\"",
+            Payload = JsonSerializer.Serialize(jobId.ToString()),
             FunctionName = "PicStamperMain",
             InvocationType = InvocationType.Event,
         };
