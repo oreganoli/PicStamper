@@ -19,7 +19,7 @@ public class Function
             FilterExpression = "createdAt < :ts",
             ExpressionAttributeValues = new Dictionary<string, AttributeValue>
             {
-                { ":ts", new AttributeValue { S = boundaryTimestamp.ToString() } }
+                { ":ts", new AttributeValue { N = boundaryTimestamp.ToString() } }
             }
         });
         if (staleJobs.Count < 1) return "Found no stale jobs, exiting.";
