@@ -10,7 +10,11 @@ public class Function
     {
         var dbClient = new AmazonDynamoDBClient();
         var scanReq = new ScanRequest
-            { TableName = "PicStamperJobTable", ProjectionExpression = "jobId, createdAt, status, downloadLink"};
+        {
+            TableName = "PicStamperJobTable",
+            ProjectionExpression = "jobId, createdAt, #s, downloadLink",
+            ExpressionAttributeNames = new Dictionary<string, string> { { "#s", "status" } }
+        };
         var jobs = await dbClient.ScanAsync(scanReq);
         return jobs.Items.Select(item => new JobModel
         {
@@ -19,5 +23,5 @@ public class Function
             DownloadLink = item["downloadLink"].S,
             Status = item["status"].S
         }).ToList();
-    } 
+    }
 }
