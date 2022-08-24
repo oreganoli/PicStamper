@@ -12,7 +12,7 @@ public class Function
     {
         var dict = new Dictionary<string, string>();
         // Generate the job ID.
-        var jobId = (Random.Shared.Next() % 1_000_000).ToString().PadLeft(6, '0');
+        var jobId = ((Random.Shared.Next() % 899_999) + 100_000).ToString().PadLeft(6, '0');
         // Create the upload URL.
         var rsa = RSA.Create();
         rsa.ImportFromPem(Config.PemKey);
