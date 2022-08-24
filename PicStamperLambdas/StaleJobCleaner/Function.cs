@@ -13,7 +13,7 @@ public class Function
     {
         var dbClient = new AmazonDynamoDBClient();
         var boundaryTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - MaxJobAge;
-        var staleJobs = await dbClient.QueryAsync(new QueryRequest("PicStamperJobTable")
+        var staleJobs = await dbClient.ScanAsync(new ScanRequest("PicStamperJobTable")
         {
             ProjectionExpression = "jobId",
             FilterExpression = "createdAt < :ts",
