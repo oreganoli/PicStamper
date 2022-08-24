@@ -1,12 +1,14 @@
 using System.Security.Cryptography;
 using Amazon.CloudFront;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
 using Amazon.Lambda.Core;
 using PicStamperLambdas;
 // ReSharper disable once CheckNamespace
 namespace UrlIssuer;
 public class Function
 {
-    public Dictionary<string, string> FunctionHandler(ILambdaContext _ctx)
+    public async Task<Dictionary<string, string>> FunctionHandler(ILambdaContext _ctx)
     {
         var dict = new Dictionary<string, string>();
         // Generate the job ID.
@@ -20,6 +22,16 @@ public class Function
             new StringReader(Config.PemKey), policy);
         dict.Add("url", url);
         dict.Add("jobId", jobId);
+        // Add a job entry in the DB.
+        var dbClient = new AmazonDynamoDBClient();
+        await dbClient.PutItemAsync("PicStamperJobTable", new Dictionary<string, AttributeValue>
+        {
+            {"jobId", new AttributeValue{ S = jobId }},
+            {"createdAt", new AttributeValue { N = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString() }},
+            {"status", new AttributeValue { S = "pending" }},
+            {"downloadLink", new AttributeValue { S = "" }},
+            {"user", new AttributeValue { S = "testUser"}}
+        });
         return dict;
     }
 }
