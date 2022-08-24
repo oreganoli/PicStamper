@@ -2,7 +2,8 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Lambda.Core;
 
-namespace PicStamperLambdas.StaleJobCleaner;
+// ReSharper disable once CheckNamespace
+namespace StaleJobCleaner;
 
 public class Function
 {
