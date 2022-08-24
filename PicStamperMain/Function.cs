@@ -3,13 +3,16 @@ using Amazon.CloudFront;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Lambda.Core;
+using Amazon.Lambda.Serialization.SystemTextJson;
 using Amazon.S3;
 using Amazon.S3.Model;
 using PicStamper;
 using SharpCompress.Archives.Zip;
 
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+[assembly: LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
+
 namespace PicStamperMain;
+
 public class Function
 {
     public async Task<string> Handler(string jobId, ILambdaContext ctx)
@@ -47,19 +50,16 @@ public class Function
         var results = await Task.WhenAll(tasks);
         using var zipArchive = ZipArchive.Create();
         using var zipMemStream = new MemoryStream();
-        foreach (var (filename, data) in results)
-        {
-            zipArchive.AddEntry(filename, data);
-        }
+        foreach (var (filename, data) in results) zipArchive.AddEntry(filename, data);
         zipArchive.SaveTo(zipMemStream);
-        
+
         await s3Client.PutObjectAsync(new PutObjectRequest
         {
             BucketName = Config.OutputBucket,
             Key = $"{jobId}.zip",
             InputStream = zipMemStream
         });
-        
+
         var url = AmazonCloudFrontUrlSigner.GetCannedSignedURL(
             AmazonCloudFrontUrlSigner.Protocol.https,
             Config.OutputDomain,
@@ -68,7 +68,7 @@ public class Function
             Config.KeyPairId,
             DateTime.UtcNow + TimeSpan.FromDays(1)
         );
-        
+
         // Update job in DB.
         var dbClient = new AmazonDynamoDBClient();
         await dbClient.UpdateItemAsync("PicStamperJobTable", new Dictionary<string, AttributeValue>
@@ -76,14 +76,16 @@ public class Function
             { "jobId", new AttributeValue { S = jobId } }
         }, new Dictionary<string, AttributeValueUpdate>
         {
-            { "status", new AttributeValueUpdate { Action = AttributeAction.PUT, Value = new AttributeValue { S = "done" } } },
-            { "downloadLink", new AttributeValueUpdate { Action = AttributeAction.PUT, Value = new AttributeValue { S = url } } }
+            {
+                "status",
+                new AttributeValueUpdate { Action = AttributeAction.PUT, Value = new AttributeValue { S = "done" } }
+            },
+            {
+                "downloadLink",
+                new AttributeValueUpdate { Action = AttributeAction.PUT, Value = new AttributeValue { S = url } }
+            }
         });
-        
+
         return url;
     }
 }
-
-
-
-

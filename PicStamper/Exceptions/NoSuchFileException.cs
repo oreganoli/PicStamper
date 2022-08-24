@@ -1,6 +1,6 @@
 namespace PicStamper.Exceptions;
 
-public class NoSuchFileException: Exception
+public class NoSuchFileException : Exception
 {
     public string Path;
 
