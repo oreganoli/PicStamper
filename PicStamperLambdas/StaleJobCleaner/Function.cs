@@ -7,7 +7,7 @@ namespace StaleJobCleaner;
 
 public class Function
 {
-    private const long MaxJobAge = 600;
+    private const long MaxJobAge = 24 * 3600;
 
     public async Task<string> Handler(ILambdaContext ctx)
     {
