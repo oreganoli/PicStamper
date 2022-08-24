@@ -2,8 +2,6 @@ using System.Security.Cryptography;
 using Amazon.CloudFront;
 using Amazon.Lambda.Core;
 using PicStamperLambdas;
-
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 // ReSharper disable once CheckNamespace
 namespace UrlIssuer;
 public class Function
