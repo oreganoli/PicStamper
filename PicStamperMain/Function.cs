@@ -1,5 +1,7 @@
 ﻿using Amazon;
 using Amazon.CloudFront;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
 using Amazon.Lambda.Core;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -66,6 +68,18 @@ public class Function
             Config.KeyPairId,
             DateTime.UtcNow + TimeSpan.FromDays(1)
         );
+        
+        // Update job in DB.
+        var dbClient = new AmazonDynamoDBClient();
+        await dbClient.UpdateItemAsync("PicStamperJobTable", new Dictionary<string, AttributeValue>
+        {
+            { "jobId", new AttributeValue { S = jobId } }
+        }, new Dictionary<string, AttributeValueUpdate>
+        {
+            { "status", new AttributeValueUpdate { Action = AttributeAction.PUT, Value = new AttributeValue { S = "done" } } },
+            { "downloadLink", new AttributeValueUpdate { Action = AttributeAction.PUT, Value = new AttributeValue { S = url } } }
+        });
+        
         return url;
     }
 }
