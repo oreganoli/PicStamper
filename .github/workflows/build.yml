@@ -38,6 +38,10 @@ jobs:
         run: "aws lambda update-function-code --function-name PicStamperJobLister --s3-bucket $CODE_BUCKET --s3-key PicStamperLambdas.zip"
       - name: Update job lister lambda config
         run: "aws lambda update-function-configuration --function-name PicStamperJobLister --handler PicStamperLambdas::JobLister.Function::Handler"
+      - name: Update job cleaner lambda code
+        run: "aws lambda update-function-code --function-name PicStamperStaleJobCleaner --s3-bucket $CODE_BUCKET --s3-key PicStamperLambdas.zip"
+      - name: Update job cleaner lambda config
+        run: "aws lambda update-function-configuration --function-name PicStamperStaleJobCleaner --handler PicStamperLambdas::StaleJobCleaner.Function::Handler"
   build_deploy_main:
     name: Build and deploy main PicStamper lambda
     env:
