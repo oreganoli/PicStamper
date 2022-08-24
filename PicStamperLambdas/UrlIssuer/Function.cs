@@ -8,7 +8,7 @@ using PicStamperLambdas;
 namespace UrlIssuer;
 public class Function
 {
-    public async Task<Dictionary<string, string>> FunctionHandler(ILambdaContext _ctx)
+    public async Task<Dictionary<string, string>> Handler(ILambdaContext _ctx)
     {
         var dict = new Dictionary<string, string>();
         // Generate the job ID.
