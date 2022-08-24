@@ -3,8 +3,8 @@ namespace JobLister;
 
 public class JobModel
 {
-    public string? JobId;
-    public int? CreatedAt;
-    public string? DownloadLink;
-    public string? Status;
+    public string? JobId { get; set; }
+    public int? CreatedAt { get; set; }
+    public string? DownloadLink { get; set; }
+    public string? Status { get; set; }
 }
