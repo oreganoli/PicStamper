@@ -13,7 +13,7 @@ public class Function
         var lambdaClient = new AmazonLambdaClient();
         var request = new InvokeRequest()
         {
-            Payload = JsonSerializer.Serialize(jobId),
+            Payload = $"\"{jobId}\"",
             FunctionName = "PicStamperMain",
             InvocationType = InvocationType.Event,
         };
