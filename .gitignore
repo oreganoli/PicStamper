@@ -7,3 +7,4 @@ riderModule.iml
 *.jpg
 *.png
 *.zip
+node_modules/
