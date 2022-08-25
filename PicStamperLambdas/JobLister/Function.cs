@@ -12,7 +12,7 @@ public class Function
         var scanReq = new ScanRequest
         {
             TableName = "PicStamperJobTable",
-            ProjectionExpression = "jobId, createdAt, #s, downloadLink",
+            ProjectionExpression = "jobId, createdAt, #s, uploadLink, downloadLink",
             ExpressionAttributeNames = new Dictionary<string, string> { { "#s", "status" } }
         };
         var jobs = await dbClient.ScanAsync(scanReq);
@@ -20,6 +20,7 @@ public class Function
         {
             JobId = item["jobId"].S,
             CreatedAt = int.Parse(item["createdAt"].N),
+            UploadLink = item["uploadLink"].S,
             DownloadLink = item["downloadLink"].S,
             Status = item["status"].S
         }).ToList();
