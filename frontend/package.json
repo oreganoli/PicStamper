@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.jsx",
+  "scripts": {
+    "serve": "esbuild app.jsx --servedir=www --outfile=www/dist/index.js --bundle --sourcemap",
+    "build": "esbuild app.jsx --outfile=www/dist/index.js --bundle --minify --sourcemap"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.5"
+  },
+  "author": "",
+  "license": "ISC"
+}
