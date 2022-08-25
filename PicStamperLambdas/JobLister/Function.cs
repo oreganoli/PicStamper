@@ -20,6 +20,7 @@ public class Function
         {
             JobId = item["jobId"].S,
             CreatedAt = int.Parse(item["createdAt"].N),
+            UploadLink = item["uploadLink"].S,
             DownloadLink = item["downloadLink"].S,
             Status = item["status"].S
         }).ToList();

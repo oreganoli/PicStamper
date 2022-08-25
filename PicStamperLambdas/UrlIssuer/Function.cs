@@ -32,6 +32,7 @@ public class Function
             { "jobId", new AttributeValue { S = jobId } },
             { "createdAt", new AttributeValue { N = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString() } },
             { "status", new AttributeValue { S = "pending" } },
+            { "uploadLink", new AttributeValue(url) },
             { "downloadLink", new AttributeValue { S = "" } },
             { "user", new AttributeValue { S = "testUser" } }
         });
