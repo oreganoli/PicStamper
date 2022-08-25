@@ -8,3 +8,4 @@ riderModule.iml
 *.png
 *.zip
 node_modules/
+dist/
