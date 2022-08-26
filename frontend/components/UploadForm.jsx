@@ -8,19 +8,23 @@ export default function UploadForm({ jobId, uploadUrl }) {
         "pending": "Start job",
         "inProgress": "Processing..."
     };
-    let putFile = (newFiles) => {
-        setFiles(files.concat(newFiles));
+    let putFiles = (newFiles) => {
+        let newFilesArr = [];
+        // make a FileList into an array of Files
+        for (let f of newFiles) {
+            newFilesArr.push(f);
+        }
+        setFiles(files.concat(newFilesArr));
     }
     let removeFile = (index) => {
-        let filesTemp = files;
-        filesTemp.splice(index, 1);
-        setFiles([...filesTemp]);
+        files.splice(index, 1);
+        setFiles([...files]);
         console.log(`Removed file #${index}`);
     }
     return <>
         <h1>Job #{jobId}</h1>
-        {files.map((file, i, _arr) => <FileEntry filename={file} index={i} key={i} removeFile={removeFile} />)}
-        <FileUploader initialValue="" putFile={putFile} index={files.length} />
+        {files.map((file, i, _arr) => <FileEntry filename={file.name} index={i} key={i} removeFile={removeFile} />)}
+        <FilePicker initialValue="" putFiles={putFiles} index={files.length} />
         <button disabled={!canStart || files.length < 1} onClick={() => {
             setCanStart(false);
             setJobState("inProgress");
@@ -32,15 +36,11 @@ function FileEntry({ filename, removeFile, index }) {
     return <div>{filename} <button onClick={() => removeFile(index)}>Remove</button></div>
 }
 
-function FileUploader({ putFile }) {
+function FilePicker({ putFiles }) {
     return <div>
-        <input id="addFilesInput" style={{ "display": "none" }} value="" type="file" onChange={e => {
+        <input accept=".jpg,.jpeg" multiple id="addFilesInput" style={{ "display": "none" }} value="" type="file" onChange={e => {
             e.preventDefault();
-            let filenames = [];
-            for (let file of e.target.files) {
-                filenames.push(file.name);
-            }
-            putFile(filenames);
+            putFiles(e.target.files);
         }}></input>
         <button onClick={() => document.getElementById("addFilesInput").click()}>Add files</button>
     </div >
