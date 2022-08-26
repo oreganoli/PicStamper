@@ -37,7 +37,11 @@ jobs:
       - name: Update job lister lambda code
         run: "aws lambda update-function-code --function-name PicStamperJobLister --s3-bucket $CODE_BUCKET --s3-key PicStamperLambdas.zip"
       - name: Update job lister lambda config
-        run: "aws lambda update-function-configuration --function-name PicStamperJobLister --handler PicStamperLambdas::JobLister.Function::Handler"
+        run: "aws lambda update-function-configuration --function-name PicStamperJobLister --handler PicStamperLambdas::JobLister.Function::ListJobsHandler"
+      - name: Update job getter lambda code
+        run: "aws lambda update-function-code --function-name PicStamperJobGetter --s3-bucket $CODE_BUCKET --s3-key PicStamperLambdas.zip"
+      - name: Update job getter lambda config
+        run: "aws lambda update-function-configuration --function-name PicStamperJobGetter --handler PicStamperLambdas::JobLister.Function::GetJobHandler"
       - name: Update job cleaner lambda code
         run: "aws lambda update-function-code --function-name PicStamperStaleJobCleaner --s3-bucket $CODE_BUCKET --s3-key PicStamperLambdas.zip"
       - name: Update job cleaner lambda config
