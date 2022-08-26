@@ -15,7 +15,12 @@ export default function Main() {
 async function getJob() {
     let response = await fetch("https://picstamper-api.oreganoli.xyz/newJob", {
         method: "POST"
-    });
-    return await response.json();
+    }).then(success => success.json(), _failure => {
+        return {
+            "jobId": "error placeholder" // my AWS account is suspended ATM
+            // TODO: remove this for production
+        };
+    })
+    return await response;
 }
 // function 
