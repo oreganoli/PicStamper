@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 
-export default function UploadScreen({ jobId, files }) {
+export default function UploadScreen({ jobId, files, setUploadFinished }) {
     let [currentFileNo, setCurrentFileNo] = useState(0);
     useEffect(() => {
         (async () => {
@@ -11,7 +11,7 @@ export default function UploadScreen({ jobId, files }) {
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 console.log(`Uploaded file #${i + 1}/${files.length}, ${files[i].name}.`);
             }
-        })().then(x => setCurrentFileNo(x => x + 1));
+        })().then(() => setUploadFinished(true));
     }, [files]);
     return <>
         <h1>Job #{jobId}</h1>
