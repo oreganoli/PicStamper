@@ -8,11 +8,11 @@ export default function Main() {
     let [uploadFiles, setUploadFiles] = useState([]);
     let [uploadFinished, setUploadFinished] = useState(false);
     if (job == null) {
-        return <div className="container text-center">
+        return <>
             <h1>PicStamper</h1>
             <button className="btn btn-primary" onClick={() => {
                 getJob().then(r => setJob(r));
-            }}>Start new processing job</button></div>;
+            }}>Start new processing job</button></>;
     } else {
         if (uploadFiles.length < 1) {
             return <UploadForm jobId={job.jobId} setUploadFiles={setUploadFiles} />;

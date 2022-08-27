@@ -16,14 +16,14 @@ export default function UploadForm({ jobId, setUploadFiles }) {
         setFiles([...files]);;
         console.log(`Removed file #${index}`);
     }
-    return <div className="container text-center">
+    return <>
         <h1>Job #{jobId}</h1>
         <FileEntries files={files} removeFile={removeFile} />
         <div className="d-flex flex-row justify-content-evenly align-items-center">
             <FilePicker putFiles={putFiles} index={files.length} />
             <button className="btn btn-primary" disabled={files.length < 1} onClick={() => setUploadFiles(files)}>Start job</button>
         </div>
-    </div>;
+    </>;
 }
 
 function FileEntries({ files, removeFile }) {
@@ -44,7 +44,7 @@ function FilePicker({ putFiles }) {
             e.preventDefault();
             putFiles(e.target.files);
         }}></input>
-        <button className="btn btn-secondary text-center" onClick={() => document.getElementById("addFilesInput").click()}>Add files</button>
+        <button className="btn btn-secondary" onClick={() => document.getElementById("addFilesInput").click()}>Add files</button>
     </>
 }
 

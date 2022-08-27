@@ -19,23 +19,23 @@ export default function DownloadScreen({ jobId, resetCallback }) {
         })().then(() => console.log("Processing complete."));
     }, [jobId]);
     if (downloadLink === "") {
-        return <div className="container">
-            <h1 className="text-center">Job #{jobId}</h1>
+        return <>
+            <h1 className="">Job #{jobId}</h1>
             <div className="alert alert-secondary d-flex flex-row justify-content-evenly align-items-center">Upload complete. Please wait while your job is being processed... <div className="spinner-border" role="status "><span className="visually-hidden">Querying server...</span></div></div>
-        </div>;
+        </>;
     } else {
-        return <div className="container">
-            <h1 className="text-center">Success</h1>
-            <div className="text-center alert alert-success">The job was finished.</div>
+        return <>
+            <h1 className="">Success</h1>
+            <div className="alert alert-success">The job was finished.</div>
             <div className="d-flex flex-row justify-content-evenly align-items-center">
                 <a id="downloadLink" href={downloadLink} download style={{ "display": "none" }}></a>
-                <button className="text-center btn btn-primary" onClick={() => document.getElementById("downloadLink").click()}>Download file</button>
-                <button className="text-center btn btn-secondary" onClick={() => {
+                <button className="btn btn-primary" onClick={() => document.getElementById("downloadLink").click()}>Download file</button>
+                <button className="btn btn-secondary" onClick={() => {
                     if (window.confirm("Are you sure you want to start another job? You will not be able to download the output of this one.")) {
                         resetCallback();
                     }
                 }}>Start another job</button>
             </div>
-        </div>
+        </>
     }
 }
