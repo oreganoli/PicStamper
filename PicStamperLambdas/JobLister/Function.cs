@@ -6,7 +6,12 @@ namespace JobLister;
 
 public class Function
 {
-    public async Task<List<JobModel>> Handler()
+    public async Task<JobModel?> GetJobHandler(string jobId)
+    {
+        return (await ListJobsHandler()).Find(job => job.JobId == jobId);
+    }
+
+    public async Task<List<JobModel>> ListJobsHandler()
     {
         var dbClient = new AmazonDynamoDBClient();
         var scanReq = new ScanRequest
