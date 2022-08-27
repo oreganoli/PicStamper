@@ -22,17 +22,17 @@ export default function DownloadScreen({ jobId, resetCallback }) {
     }, [jobId]);
     if (downloadLink === "") {
         return <>
-            <h1>Job #{jobId}</h1>
+            <h1 className="text-center">Job #{jobId}</h1>
             <p>Upload complete. Please wait while your job is being processed{ticker % 2 == 0 ? "..." : ".."}</p>
         </>;
     } else {
         return <>
-            <h1>Success</h1>
-            <h2>The job was finished.</h2>
+            <h1 className="text-center">Success</h1>
+            <div className="text-center alert alert-success">The job was finished.</div>
             <a id="downloadLink" href={downloadLink} download style={{ "display": "none" }}></a>
-            <button onClick={() => document.getElementById("downloadLink").click()}>Download file</button>
+            <button className="text-center btn btn-primary" onClick={() => document.getElementById("downloadLink").click()}>Download file</button>
             <hr></hr>
-            <button onClick={resetCallback}>Start another job</button>
+            <button className="text-center btn btn-secondary" onClick={resetCallback}>Start another job</button>
         </>
     }
 }
