@@ -19,7 +19,11 @@ export default function Main() {
         } else if (!uploadFinished) {
             return <UploadScreen jobId={job.jobId} uploadUrl={job.url} files={uploadFiles} setUploadFinished={setUploadFinished} />;
         } else {
-            return <DownloadScreen jobId={job.jobId} />;
+            return <DownloadScreen jobId={job.jobId} resetCallback={() => {
+                setJob(null);
+                setUploadFiles([]);
+                setUploadFinished(false);
+            }} />;
         }
     }
 }

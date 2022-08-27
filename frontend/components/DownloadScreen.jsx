@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 
-export default function DownloadScreen({ jobId }) {
+export default function DownloadScreen({ jobId, resetCallback }) {
     let [ticker, setTicker] = useState(0);
     let [downloadLink, setDownloadLink] = useState("");
     useEffect(() => {
@@ -31,6 +31,8 @@ export default function DownloadScreen({ jobId }) {
             <h2>The job was finished.</h2>
             <a id="downloadLink" href={downloadLink} download style={{ "display": "none" }}></a>
             <button onClick={() => document.getElementById("downloadLink").click()}>Download file</button>
+            <hr></hr>
+            <button onClick={resetCallback}>Start another job</button>
         </>
     }
 }
