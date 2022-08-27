@@ -18,12 +18,20 @@ export default function UploadForm({ jobId, setUploadFiles }) {
     }
     return <div className="container text-center">
         <h1>Job #{jobId}</h1>
-        {files.map((file, i, _arr) => <FileEntry filename={file.name} index={i} key={i} removeFile={removeFile} />)}
+        <FileEntries files={files} removeFile={removeFile} />
         <div className="d-flex flex-row justify-content-evenly align-items-center">
             <FilePicker putFiles={putFiles} index={files.length} />
             <button className="btn btn-primary" disabled={files.length < 1} onClick={() => setUploadFiles(files)}>Start job</button>
         </div>
     </div>;
+}
+
+function FileEntries({ files, removeFile }) {
+    if (files.length < 1) {
+        return <div className="alert alert-secondary">No images yet. Add some with the button below.</div>
+    } else {
+        return files.map((each, i, _arr) => <FileEntry filename={each.name} index={i} key={i} removeFile={removeFile} />);
+    }
 }
 
 function FileEntry({ filename, removeFile, index }) {
