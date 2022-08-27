@@ -23,7 +23,7 @@ export default function DownloadScreen({ jobId, resetCallback }) {
     if (downloadLink === "") {
         return <div className="container">
             <h1 className="text-center">Job #{jobId}</h1>
-            <p>Upload complete. Please wait while your job is being processed{ticker % 2 == 0 ? "..." : ".."}</p>
+            <div className="alert alert-secondary">Upload complete. Please wait while your job is being processed{ticker % 2 == 0 ? "..." : ".."}</div>
         </div>;
     } else {
         return <div className="container">
