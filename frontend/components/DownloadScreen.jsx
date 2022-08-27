@@ -3,12 +3,10 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 
 export default function DownloadScreen({ jobId, resetCallback }) {
-    let [ticker, setTicker] = useState(0);
     let [downloadLink, setDownloadLink] = useState("");
     useEffect(() => {
         (async () => {
             while (true) {
-                setTicker(x => x + 1);
                 let response = await Axios.get(`https://picstamper-api.oreganoli.xyz/jobs/${jobId}`);
                 let jobInfo = response.data;
                 if (jobInfo.DownloadLink !== "") {
@@ -23,7 +21,7 @@ export default function DownloadScreen({ jobId, resetCallback }) {
     if (downloadLink === "") {
         return <div className="container">
             <h1 className="text-center">Job #{jobId}</h1>
-            <div className="alert alert-secondary">Upload complete. Please wait while your job is being processed{ticker % 2 == 0 ? "..." : ".."}</div>
+            <div className="alert alert-secondary d-flex flex-row justify-content-evenly align-items-center">Upload complete. Please wait while your job is being processed... <div className="spinner-border" role="status "><span className="visually-hidden">Querying server...</span></div></div>
         </div>;
     } else {
         return <div className="container">
