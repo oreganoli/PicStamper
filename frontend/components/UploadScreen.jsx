@@ -1,16 +1,22 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import Axios from "axios";
 
-export default function UploadScreen({ jobId, files, setUploadFinished }) {
+export default function UploadScreen({ jobId, uploadUrl, files, setUploadFinished }) {
     let [currentFileNo, setCurrentFileNo] = useState(0);
     useEffect(() => {
         (async () => {
             for (let i = 0; i < files.length; i++) {
                 setCurrentFileNo(i);
                 console.log(`Uploading file #${i + 1}/${files.length}, ${files[i].name}...`);
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await Axios.put(uploadUrl.replace("PLACEHOLDER.jpg", files[i].name), files[i], {
+                    headers: {
+                        "content-type": "multipart/form-data"
+                    }
+                });
                 console.log(`Uploaded file #${i + 1}/${files.length}, ${files[i].name}.`);
             }
+            await Axios.post(`https://picstamper-api.oreganoli.xyz/startJob/${jobId}`);
         })().then(() => setUploadFinished(true));
     }, [files]);
     return <>

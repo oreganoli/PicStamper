@@ -15,9 +15,9 @@ export default function Main() {
             }}>Start new processing job</button></>;
     } else {
         if (uploadFiles.length < 1) {
-            return <UploadForm jobId={job.jobId} uploadUrl={"none"} setUploadFiles={setUploadFiles} />;
+            return <UploadForm jobId={job.jobId} setUploadFiles={setUploadFiles} />;
         } else if (!uploadFinished) {
-            return <UploadScreen jobId={job.jobId} files={uploadFiles} setUploadFinished={setUploadFinished} />;
+            return <UploadScreen jobId={job.jobId} uploadUrl={job.url} files={uploadFiles} setUploadFinished={setUploadFinished} />;
         } else {
             return <DownloadScreen jobId={job.jobId} />;
         }

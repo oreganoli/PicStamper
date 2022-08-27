@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 
-export default function UploadForm({ jobId, uploadUrl, setUploadFiles }) {
+export default function UploadForm({ jobId, setUploadFiles }) {
     let [files, setFiles] = useState([]);
     let putFiles = (newFiles) => {
         let newFilesArr = [];
