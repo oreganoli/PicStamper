@@ -19,8 +19,11 @@ export default function UploadScreen({ jobId, uploadUrl, files, setUploadFinishe
             await Axios.post(`https://picstamper-api.oreganoli.xyz/startJob/${jobId}`);
         })().then(() => setUploadFinished(true));
     }, [files]);
-    return <>
+    return <div className="container text-center">
         <h1>Job #{jobId}</h1>
-        {(currentFileNo) < files.length ? <p>{`Please wait, uploading file ${files[currentFileNo].name}(${currentFileNo + 1}/${files.length})...`}</p> : <p>Upload complete.</p>}
-    </>
+        <div className="alert alert-secondary d-flex flex-row justify-content-evenly align-items-center">
+            {`Please wait, uploading file ${files[currentFileNo].name} (${currentFileNo + 1}/${files.length})... `}
+            <div className="spinner-border" role="status "><span className="visually-hidden">Uploading...</span></div>
+        </div>
+    </div>
 }
