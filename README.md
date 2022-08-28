@@ -10,3 +10,6 @@ In a typical run, a user will visit the application's website and open a new bat
 # Live instance
 
 PicStamper is deployed live and available to use at [picstamper.oreganoli.xyz](https://picstamper.oreganoli.xyz/).
+
+# Example output
+![Picture processed by PicStamper](example_output.jpg)
